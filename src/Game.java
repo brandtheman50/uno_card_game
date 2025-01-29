@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Scanner;
 
 public class Game {
 
@@ -29,16 +31,53 @@ public class Game {
         this.direction = true;
     }
 
+    public boolean isCardValid(Card currentCard, Card newCard) {
+        return true;
+    }
+
+    public void playerAction(HashMap<String, String> action, Player player) { // Handle player move
+        switch(action.get("Action")) {
+            case "Draw":
+                player.addCard();
+            case "Skip":
+                System.out.printf("Player %d skipped.", player.id);
+                currentPlayerIndex += direction ? 1 : -1;
+            case "Place card":
+                boolean valid = isCardValid(currentCard, player.getHand().get(  // Use user input to get index of card to place
+                        Integer.parseInt(
+                                action.get("Card")
+                        )));
+            default:
+                break;
+        }
+     }
     public void playerTurn() {
+        PlayerController playerController = new PlayerController(players.getFirst());
         do {
-            for (int i = 1; i < players.size(); ++i) { // Print how many cards each computer player hs
+            for (int i = 1; i < players.size(); ++i) { // Print how many cards each computer player has
                 System.out.printf("Player %d has %d cards\n", players.get(i).getId(), players.get(i).getHand().size());
             }
             showCurrentCard();
-            PlayerController player = new PlayerController(players.getFirst());
-            player.showHand();
-        } while(true);
 
+
+            // Player enter next move
+            boolean valid = false;
+
+            Scanner scanner = new Scanner(System.in); // Get user input
+            HashMap<String, String> action = new HashMap<>();
+            playerController.showHand();
+
+            // Validate user input
+            String input = scanner.nextLine();
+            action = playerController.validateUserInput(input);
+            if (action == null) {
+                continue;
+            }
+            else {
+
+            }
+
+        } while(true);
     }
 
     public void showCurrentCard() {

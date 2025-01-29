@@ -8,8 +8,7 @@ public class Player {
         this.id = id;
         this.hand = new ArrayList<>();
         for (int i=0; i<7; ++i) {
-            Card card = new Card();
-            addCard(card);
+            addCard();
         }
     }
 
@@ -17,7 +16,8 @@ public class Player {
         return id;
     }
 
-    public void addCard(Card card) {
+    public void addCard() {
+        Card card = new Card();
         hand.add(card);
     }
 

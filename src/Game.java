@@ -10,7 +10,7 @@ public class Game {
     Player player2;
     Player player3;
     Player player4;
-    private ArrayList<Player> players;
+    private final ArrayList<Player> players;
     private boolean direction; // Goes in order if true and reverse if false
     private int currentPlayerIndex;
 
@@ -40,7 +40,7 @@ public class Game {
             case "Draw":
                 player.addCard();
             case "Skip":
-                System.out.printf("Player %d skipped.", player.id);
+                System.out.printf("Player %d skipped.", player.getId());
                 currentPlayerIndex += direction ? 1 : -1;
             case "Place card":
                 boolean valid = isCardValid(currentCard, player.getHand().get(  // Use user input to get index of card to place
@@ -51,6 +51,16 @@ public class Game {
                 break;
         }
      }
+
+     public boolean isHandPlayable(Card currentCard, Player player) { // This function checks if a card from the player's hand is playable
+        for (Card card : player.getHand()) {
+            if (card.getColor().equals(currentCard.getColor()) || card.getValue().equals(currentCard.getValue())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void playerTurn() {
         PlayerController playerController = new PlayerController(players.getFirst());
         do {
@@ -59,23 +69,13 @@ public class Game {
             }
             showCurrentCard();
 
-
             // Player enter next move
             boolean valid = false;
 
             Scanner scanner = new Scanner(System.in); // Get user input
             HashMap<String, String> action = new HashMap<>();
             playerController.showHand();
-
-            // Validate user input
-            String input = scanner.nextLine();
-            action = playerController.validateUserInput(input);
-            if (action == null) {
-                continue;
-            }
-            else {
-
-            }
+            String input = playerController.getPlayerInput();
 
         } while(true);
     }

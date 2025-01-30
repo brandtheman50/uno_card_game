@@ -10,11 +10,8 @@ public class PlayerController {
     public PlayerController(Player player) {
         this.player = player;
     }
-
-    public int chooseCard() {
-        return 1;
-    }
-
+    private boolean mustDraw = true;
+    private boolean isCardPlaced = false;
 
     public HashMap<String, String> validateUserInput(String input) { // Parse user input to determine action
         HashMap<String, String> action = new HashMap<>();
@@ -50,6 +47,10 @@ public class PlayerController {
             Card card = hand.get(i);
             System.out.printf("%d: %s %s\n", i, card.getColor(), card.getValue());
         }
-        System.out.println("Draw: d\nSkip: s");
+    }
+
+    public String getPlayerInput() {
+        Scanner scanner = new Scanner(System.in);
+        return scanner.nextLine();
     }
 }
